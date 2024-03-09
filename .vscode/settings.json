@@ -1,0 +1,8 @@
+{
+	"editor.fontSize": 12,
+	"editor.fontFamily": "D2Coding",
+	"editor.tabSize": 2,
+	"editor.fontWeight": "200",
+	"workbench.fontAliasing": "antialiased",
+	"files.autoSave": "afterDelay"
+}

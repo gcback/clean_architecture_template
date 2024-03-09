@@ -1,17 +1,4 @@
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvvm/domain/user.dart';
-import 'package:mvvm/presentation/navigation/navbar.dart';
-
-import 'package:mylib/mylib.dart';
-
-import '../pages/home_page.dart';
-import '../pages/commute_page.dart';
-import '../pages/saved_page.dart';
-import '../pages/settings_page.dart';
-import '../pages/users_page.dart';
-import '../user_detail_page.dart';
-import 'scaffold_with_navbar.dart';
+part of '../navigation.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'Home');
@@ -56,7 +43,8 @@ final GoRouter router = GoRouter(
                   builder: (context, state) => Consumer(
                     builder: (context, ref, child) {
                       _gRef = ref;
-                      Future(() => ref.read(visibleBottom.notifier).state = false);
+                      Future(
+                          () => ref.read(visibleBottom.notifier).state = false);
 
                       return UserDetail(state.extra as User);
                     },

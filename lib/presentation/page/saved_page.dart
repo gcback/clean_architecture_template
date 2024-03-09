@@ -1,4 +1,4 @@
-import 'package:mylib/mylib.dart';
+part of '../page.dart';
 
 class SavedPage extends StatelessWidget {
   const SavedPage({super.key});

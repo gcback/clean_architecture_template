@@ -1,5 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylib/mylib.dart';
+part of '../page.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});

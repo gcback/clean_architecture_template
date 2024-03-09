@@ -1,8 +1,4 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mylib/mylib.dart';
-
-import '../common/utils.dart';
-import '../domain/user.dart';
+part of '../component.dart';
 
 class UserDetail extends HookConsumerWidget {
   const UserDetail(this.user, {super.key});

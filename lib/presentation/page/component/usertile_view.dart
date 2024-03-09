@@ -1,9 +1,4 @@
-import 'package:go_router/go_router.dart';
-import 'package:mvvm/presentation/common_widgets.dart';
-import 'package:mylib/mylib.dart';
-
-import '../common/utils.dart';
-import '../domain/user.dart';
+part of '../component.dart';
 
 class UserTile extends StatelessWidget {
   const UserTile({super.key, required this.profile});

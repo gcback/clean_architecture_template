@@ -1,9 +1,4 @@
-import 'package:go_router/go_router.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'package:mylib/mylib.dart';
-
-import 'navbar.dart';
+part of '../navigation.dart';
 
 class ScaffoldWithNavBar extends HookConsumerWidget {
   const ScaffoldWithNavBar({Key? key, required this.navigationShell})

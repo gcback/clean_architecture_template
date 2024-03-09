@@ -1,8 +1,8 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'user.dart';
-import '../data/repository.dart';
 import 'user_usecase.dart';
+import '../data/repository_impl.dart';
 
 part 'user_controller.g.dart';
 
@@ -13,94 +13,72 @@ part 'user_controller.g.dart';
 // data가 들어어면
 //
 
-// abstract class RepositoryIface {
-//   void user() {}
-//   void addUser() {}
-//   void remove() {}
-//   void update() {}
-// }
-
-// @riverpod
-// class Repository extends _$Repository implements RepositoryIface {
-//   @override
-//   void build() {}
-// }
-
 @riverpod
 class Users extends _$Users implements UserUseCase1 {
   @override
   Future<UserCollection> build() async {
-    final repository = ref.watch(usersRepositoryProvider);
+    final repository = ref.read(repositoryImplProvider.notifier);
 
-    final users = await repository.users(0);
-    if (users case final users) {
-      return (
-        total: users.length,
-        users: users,
-      );
-    }
+    final users = await repository.get(1, 2);
+
+    return (total: users.length, users: users);
   }
 
   @override
-  Future<void> nextUsers() async {
-    final repository = ref.watch(usersRepositoryProvider);
+  Future<void> get(int id, int count) async {
+    final repository = ref.read(repositoryImplProvider.notifier);
 
+    state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final value = state.value!;
 
-      final users = await repository.users(value.total);
-      if (users case final users) {
-        return (
-          total: value.total + users.length,
-          users: <User>[...value.users, ...users],
-        );
-      }
-    });
-  }
-
-  @override
-  Future<bool> add(User user) async {
-    final repository = ref.watch(usersRepositoryProvider);
-
-    state = await AsyncValue.guard(() async {
-      final value = state.value!;
-
-      final result = await repository.add(user);
-
-      if (!result) return value;
-
+      final users = await repository.get(id, count);
       return (
-        total: value.total + 1,
-        users: <User>[...value.users, user],
+        total: value.total + users.length,
+        users: <User>[...value.users, ...users],
       );
     });
-
-    return true;
   }
 
-  /// business logics, interface는 UserUseCase를 따른다.
-  ///
   @override
-  Future exception() async {
-    try {
-      state = AsyncValue.error(Exception('테스트 오류'), StackTrace.current);
-      // state = const AsyncValue.data((total: 0, users: []));
-    } catch (e) {
-      rethrow;
-    }
+  Future<void> add(User user) async {
+    final repository = ref.read(repositoryImplProvider.notifier);
+
+    repository.add(user);
   }
 
   @override
   Future<void> remove(int id) async {
-    final UserCollection(:users) = state.value!;
+    final repository = ref.read(repositoryImplProvider.notifier);
 
-    final updatedList = [
-      for (final user in users)
-        if (user.no != id) user
-    ];
+    state = await AsyncValue.guard(() async {
+      final UserCollection(:users) = state.value!;
 
-    print('remove: count=${updatedList.length}');
+      await repository.remove(id);
 
-    state = AsyncValue.data((total: updatedList.length, users: updatedList));
+      final updatedList = [
+        for (final user in users)
+          if (user.no != id) user
+      ];
+
+      return (total: updatedList.length, users: updatedList);
+    });
+  }
+
+  @override
+  Future<void> next() async {
+    final repository = ref.read(repositoryImplProvider.notifier);
+
+    state = await AsyncValue.guard(() async {
+      final UserCollection(:total, :users) = state.value!;
+
+      final nextUsers = await repository.get(total + 1, 2);
+      if (nextUsers case final nextUsers) {
+        return (
+          total: total + nextUsers.length,
+          users: <User>[...users, ...nextUsers],
+        );
+      }
+    });
   }
 }

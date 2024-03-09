@@ -1,4 +1,4 @@
-import 'package:mylib/mylib.dart';
+part of '../page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

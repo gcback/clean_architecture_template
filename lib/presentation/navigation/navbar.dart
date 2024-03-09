@@ -1,8 +1,4 @@
-import 'dart:ui';
-import 'package:align_positioned/align_positioned.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_symbols_icons/symbols.dart';
-import 'package:mylib/mylib.dart';
+part of '../navigation.dart';
 
 enum NavItem {
   home('Home', '/', Symbols.home),

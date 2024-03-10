@@ -14,7 +14,7 @@ part 'user_controller.g.dart';
 //
 
 @riverpod
-class Users extends _$Users implements UserUseCase1 {
+class Users extends _$Users implements UseCase1 {
   @override
   Future<UserCollection> build() async {
     final repository = ref.read(repositoryImplProvider.notifier);

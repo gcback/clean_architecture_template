@@ -1,24 +1,25 @@
 part of '../page.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends HookConsumerWidget {
   const SettingsPage({super.key});
 
   static const title = 'Settings';
 
   @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      bottom: true,
-      child: Scaffold(
-        extendBody: false,
-        appBar: AppBar(title: const Text(title)),
-        body: const Center(child: Text(title)),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.add),
-        ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(title),
+        leading: IconButton(
+            onPressed: () {
+              final BottomNavState(:previousIdx) = ref.watch(navbarState);
+              final prevRoute = NavItem.getById(previousIdx).route;
+
+              context.go(prevRoute);
+            },
+            icon: const Icon(Icons.arrow_back)),
       ),
+      body: const Center(child: Text(title)),
     );
   }
 }

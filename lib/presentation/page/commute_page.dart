@@ -7,6 +7,8 @@ class CommutePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Center(child: Text(title));
+    return Scaffold(
+        appBar: AppBar(title: const Text(title)),
+        body: const Center(child: Text(title)));
   }
 }

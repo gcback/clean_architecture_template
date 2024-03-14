@@ -11,6 +11,7 @@ import 'package:mylib/mylib.dart';
 import '../domain/user.dart';
 import 'page.dart';
 import 'page/component.dart';
+import 'navigation/navbar_state.dart';
 
 part 'navigation/navbar.dart';
 part 'navigation/router.dart';

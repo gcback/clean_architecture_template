@@ -9,6 +9,13 @@ class ScaffoldWithNavBar extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void goBranch(int index) {
+      switch (index) {
+        case 4:
+          ref
+              .read(navbarState.notifier)
+              .update((state) => state.copyWith(visible: false));
+      }
+
       navigationShell.goBranch(
         index,
         // A common pattern when using bottom navigation bars is to support

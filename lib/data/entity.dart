@@ -16,7 +16,6 @@ class UserEntity with UserEntityMappable {
   const UserEntity(
       this.no, this.name, this.email, this.description, this.pic, this.updated);
 
-  /// source를
   static const fromMap = UserEntityMapper.fromMap;
 
   /// Mapper of Entity to Model

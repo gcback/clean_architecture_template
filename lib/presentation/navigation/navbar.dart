@@ -1,25 +1,5 @@
 part of '../navigation.dart';
 
-enum NavItem {
-  home('Home', '/', Symbols.home),
-  users('Users', '/users', Symbols.people),
-  saved('Saved', '/saved', Symbols.save),
-  commute('Commute', '/commute', Symbols.commute),
-  menu('Settings', '/settings', Symbols.settings);
-
-  final String label;
-  final String route;
-  final IconData selectedIcon;
-
-  const NavItem(this.label, this.route, this.selectedIcon);
-
-  factory NavItem.getById(int index) {
-    return NavItem.values.firstWhere((el) => el.index == index);
-  }
-}
-
-final visibleBottom = StateProvider((ref) => true);
-
 class BottomNav extends HookConsumerWidget {
   const BottomNav(this.goBranch, this.currentIndex, {super.key});
 
@@ -28,21 +8,26 @@ class BottomNav extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isVisibleBottom = ref.watch(visibleBottom);
+    final bottomState = ref.watch(navbarState);
 
     return AnimatedAlignPositioned(
       alignment: Alignment.bottomCenter,
-      moveByChildHeight: isVisibleBottom ? 0.0 : 1.0,
+      /// 상하로 애니메이션
+      moveByChildHeight: bottomState.visible ? 0.0 : 1.0,
+      /// 좌우로 애이메이션
+      // moveByChildWidth: isVisibleBottom ? 0.0 : 1.0,
       child: ClipRect(
         child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: 12.0,
-            sigmaY: 12.0,
-          ),
+          filter: ImageFilter.blur(sigmaX: 12.0, sigmaY: 12.0),
           child: NavigationBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color.fromRGBO(0, 0, 0, 0),
             selectedIndex: currentIndex,
-            onDestinationSelected: goBranch,
+            onDestinationSelected: (index) {
+              ref.watch(navbarState.notifier).update((state) =>
+                  state.copyWith(currentIdx: index, previousIdx: currentIndex));
+
+              goBranch(index);
+            },
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: const [
               NavigationDestination(

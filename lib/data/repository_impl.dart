@@ -1,11 +1,11 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../common/exceptions.dart';
 import '../domain/user.dart';
 import '../domain/repository_iface.dart';
 
 import 'entity.dart';
 import 'source_iface.dart';
-import 'source_remote.dart';
 
 part 'repository_impl.g.dart';
 
@@ -17,17 +17,21 @@ enum SourceType {
 
 @riverpod
 class RepositoryImpl extends _$RepositoryImpl implements RepositoryIface {
-  late SourceRemote client;
+  late DataSource? _source;
+  DataSource get source =>
+      _source ?? (throw DataLayerException('Source not ready!'));
 
   @override
-  RepositoryImpl build() => RepositoryImpl();
+  RepositoryImpl build() {
+    _source = ref.watch(sourceProvider);
+
+    return RepositoryImpl();
+  }
 
   @override
   Future<UserList> get(int id, int count) async {
-    final source = ref.watch(sourceProvider);
-
     try {
-      final userMaps = await source.get(id, count);
+      final userMaps = await _source!.get(id, count);
 
       if (userMaps case {'items': var list}) {
         final users = [
@@ -44,17 +48,17 @@ class RepositoryImpl extends _$RepositoryImpl implements RepositoryIface {
   }
 
   @override
+  Future<UserList> next() {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<bool> add(User user) async {
     throw UnimplementedError();
   }
 
   @override
   Future<bool> remove(int id) async {
-    return ref.watch(sourceProvider).remove(id);
-  }
-
-  @override
-  Future<UserList> next() {
-    throw UnimplementedError();
+    return _source!.remove(id);
   }
 }

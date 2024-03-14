@@ -13,3 +13,18 @@ Widget buildRefrechIndicator([double? ratio]) => const Center(
         ),
       ),
     );
+
+class LoadingSpinner extends StatelessWidget {
+  const LoadingSpinner({required this.size, super.key});
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.square(
+      dimension: size,
+      child: const CircularProgressIndicator(
+        strokeWidth: 1.5,
+      ),
+    );
+  }
+}

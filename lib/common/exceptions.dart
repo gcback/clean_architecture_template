@@ -1,3 +1,12 @@
+class SourceLayerException implements Exception {
+  final String message;
+
+  SourceLayerException(this.message);
+
+  @override
+  String toString() => 'SourceLayerException: $message';
+}
+
 class DataLayerException implements Exception {
   final String message;
 
@@ -7,11 +16,20 @@ class DataLayerException implements Exception {
   String toString() => 'DataLayerException: $message';
 }
 
-class SourceLayerException implements Exception {
+class DomainLayerException implements Exception {
   final String message;
 
-  SourceLayerException(this.message);
+  DomainLayerException(this.message);
 
   @override
-  String toString() => 'SourceLayerException: $message';
+  String toString() => 'DomainLayerException: $message';
+}
+
+class PresentationLayerException implements Exception {
+  final String message;
+
+  PresentationLayerException(this.message);
+
+  @override
+  String toString() => 'PresentationLayerException: $message';
 }

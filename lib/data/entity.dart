@@ -19,8 +19,8 @@ class UserEntity with UserEntityMappable {
   static const fromMap = UserEntityMapper.fromMap;
 
   /// Mapper of Entity to Model
-  ///  - source로부터 받은  raw data(entity)를 model 데이터로 변환
-  ///  * view, viewmodel은 data로부터 독립된다.
+  ///  - source로부터 받은 raw data(entity)를 model 데이터로 변환
+  ///  * presentation layer(view, viewmodel)는 data layer로부터 독립된다.
   User get toModel => User(
         no,
         name,

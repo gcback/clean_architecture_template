@@ -15,6 +15,9 @@ enum SourceType {
   mock,
 }
 
+final sourceProvider =
+    Provider((ref) => DataSource.client(type: SourceType.localdb));
+
 @riverpod
 class RepositoryImpl extends _$RepositoryImpl implements RepositoryIface {
   late DataSource? _source;
@@ -31,7 +34,7 @@ class RepositoryImpl extends _$RepositoryImpl implements RepositoryIface {
   @override
   Future<UserList> get(int id, int count) async {
     try {
-      final userMaps = await _source!.get(id, count);
+      final userMaps = await source.get(id, count);
 
       if (userMaps case {'items': var list}) {
         final users = [
@@ -40,11 +43,10 @@ class RepositoryImpl extends _$RepositoryImpl implements RepositoryIface {
 
         return users;
       }
+      return [];
     } catch (e) {
       rethrow;
     }
-
-    return <User>[];
   }
 
   @override

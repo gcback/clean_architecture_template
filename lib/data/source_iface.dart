@@ -1,6 +1,3 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:mvvm/domain/user.dart';
-
 import 'entity.dart';
 import 'repository_impl.dart';
 import 'source_mock.dart';
@@ -18,6 +15,3 @@ abstract interface class DataSource {
         _ => SourceMock(),
       };
 }
-
-final sourceProvider =
-    Provider((ref) => DataSource.client(type: SourceType.remote));

@@ -4,5 +4,17 @@
 	"editor.tabSize": 2,
 	"editor.fontWeight": "200",
 	"workbench.fontAliasing": "antialiased",
-	"files.autoSave": "afterDelay"
+	"files.autoSave": "afterDelay",
+	"rest-client.fontWeight": "normal",
+	"debug.console.fontSize": 12,
+	"terminal.integrated.fontSize": 12,
+	"scm.inputFontSize": 12,
+	"chat.editor.fontSize": 12,
+	"rest-client.fontFamily": "D2Coding",
+	"editor.experimentalInlineEdit.fontFamily": "default",
+	"svg.preview.scaleZoom": 1.2,
+	"window.zoomPerWindow": true,
+	"window.zoomLevel": 0.5,
+	"terminal.integrated.fontFamily": "D2Coding",
+	"notebook.output.fontFamily": "D2Coding"
 }

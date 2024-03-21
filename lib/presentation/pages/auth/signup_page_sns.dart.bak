@@ -1,0 +1,186 @@
+import 'package:flutter/gestures.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:measured/measured.dart';
+import 'package:mylib/mylib.dart';
+
+import 'centered_line.dart';
+
+final authControllerProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
+});
+
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
+  @override
+  SignUpPageState createState() => SignUpPageState();
+}
+
+class SignUpPageState extends State<SignUpPage> {
+  final _formKey = GlobalKey<FormState>();
+  String? _email;
+  String? _password;
+
+  late TapGestureRecognizer tapGestureRecognizer;
+
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+  final confirmFocusNode = FocusNode();
+  final focusGroup = FocusScopeNode(); //(child: child);
+
+  void requestSignUp() {}
+  void _handleTap() {}
+
+  @override
+  void initState() {
+    super.initState();
+    tapGestureRecognizer = TapGestureRecognizer()..onTap = _handleTap;
+  }
+
+  @override
+  void dispose() {
+    tapGestureRecognizer.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    confirmFocusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(title: const Text('Register')),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: (16.0, 24.0).insets,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      focusNode: emailFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(passwordFocusNode);
+                      },
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email',
+                        hintText: 'abc@example.com',
+                        suffixIcon: IconButton(
+                          icon: Icons.clear.widget,
+                          onPressed: emailController.clear,
+                        ),
+                      ),
+                      autofocus: true,
+                      onSaved: (value) => _email = value,
+                      validator: (value) => switch (value) {
+                        != null when value.isEmpty || !value.contains('@') =>
+                          'Please enter a valid email',
+                        _ => null,
+                      },
+                    ),
+                    TextFormField(
+                      focusNode: passwordFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(confirmFocusNode);
+                      },
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        labelText: 'Password',
+                        hintText: 'be at least 6 characters',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: passwordController.clear,
+                        ),
+                      ),
+                      obscureText: true,
+                      autofocus: true,
+                      onSaved: (value) => _password = value,
+                      validator: (value) => switch (value) {
+                        != null when value.isEmpty || value.length < 6 =>
+                          'Password must be at least 6 characters',
+                        _ => null,
+                      },
+                    ),
+                    TextFormField(
+                      focusNode: confirmFocusNode,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (_) {
+                        FocusScope.of(context).requestFocus(emailFocusNode);
+                      },
+                      controller: confirmController,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm',
+                        suffixIcon: IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: confirmController.clear,
+                        ),
+                      ),
+                      obscureText: true,
+                      autofocus: true,
+                      validator: (value) => (value != _password)
+                          ? 'Passwords do not match'
+                          : null,
+                    ),
+                    const Gap(24.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.cancel),
+                          label: const Text('Cancel'),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                        OutlinedButton.icon(
+                          icon: const Icon(Icons.check),
+                          label: const Text('Register'),
+                          onPressed: requestSignUp,
+                          // focusNode: submitFocusnNode,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              CenteredLine(
+                size: const Size.fromHeight(100.0),
+                padding: 16.0.allInsets,
+                indent: 10.0,
+                endIndent: 30.0,
+                borderSide: const BorderSide(color: Colors.yellow, width: 5),
+                child: const Center(
+                  child: Text('ETC'),
+                ),
+              ).measured(outlined: true),
+              RichText(
+                text: TextSpan(
+                  text: 'SNS 계정을 통한 회원가입을 원하시면, 아래 SNS 인증에서 선택해 주세요. ',
+                  // style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '구글계정으로 회원가입',
+                      style: const TextStyle(color: Colors.blue),
+                      recognizer: tapGestureRecognizer,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

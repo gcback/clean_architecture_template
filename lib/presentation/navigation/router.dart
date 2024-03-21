@@ -51,7 +51,7 @@ final GoRouter router = GoRouter(
                         ?.read(navbarState.notifier)
                         .update((state) => state.copyWith(visible: false)));
 
-                    return UserDetail(state.extra as User);
+                    return ProfileDetail(state.extra as Profile);
                   },
                   onExit: (context) {
                     /// 화면을 나오면 bottombar 복귀

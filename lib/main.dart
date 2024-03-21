@@ -2,7 +2,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mylib/mylib.dart';
 
 import 'presentation/navigation.dart';
-import 'presentation/page/component.dart';
+import 'presentation/pages/component.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Offset.zero;
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldSnackbarKey,
       theme: lightTheme,

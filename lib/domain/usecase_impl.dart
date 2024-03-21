@@ -3,7 +3,7 @@ import 'package:mvvm/domain/repository_iface.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../common/exceptions.dart';
-import 'user.dart';
+import 'profile.dart';
 import 'usecase_iface.dart';
 
 part 'usecase_impl.g.dart';
@@ -27,17 +27,17 @@ class UseCaseImpl extends _$UseCaseImpl implements UseCase1 {
   }
 
   @override
-  Future<void> add(User user) {
-    return _repository!.add(user);
+  Future<void> add(Profile profile) {
+    return _repository!.add(profile);
   }
 
   @override
-  Future<UserList> get(int id, int count) {
+  Future<ProfileList> get(int id, int count) {
     return _repository!.get(id, count);
   }
 
   @override
-  Future<UserList> next() {
+  Future<ProfileList> next() {
     return _repository!.next();
   }
 

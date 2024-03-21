@@ -7,7 +7,7 @@ class UsersPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userCollection = ref.watch(usersProvider);
+    final userCollection = ref.watch(profilesProvider);
     final scroller = useScrollController();
     useEffectOnce(() {
       // 스크롤 방향에 따라 bottomBar를 숨길지 보일지 결정한다.
@@ -49,7 +49,7 @@ class UsersPage extends HookConsumerWidget {
               controller: scroller,
               slivers: [
                 CupertinoSliverRefreshControl(
-                  onRefresh: () => ref.refresh(usersProvider.future),
+                  onRefresh: () => ref.refresh(profilesProvider.future),
                   builder: (_, __, ___, ____, _____) => buildRefrechIndicator(),
                 ),
                 SliverList.builder(
@@ -57,14 +57,14 @@ class UsersPage extends HookConsumerWidget {
                   itemBuilder: (context, index) {
                     if (value.total < 6 && index == value.total) {
                       return ActionButton(
-                        onPressed: ref.read(usersProvider.notifier).next,
+                        onPressed: ref.read(profilesProvider.notifier).next,
                         icon: const Icon(Symbols.download),
                       );
                     }
 
                     // for infinite scrolling
                     if (index == value.total) {
-                      ref.read(usersProvider.notifier).next();
+                      ref.read(profilesProvider.notifier).next();
 
                       return const Center(
                         child: CircularProgressIndicator(
@@ -74,7 +74,7 @@ class UsersPage extends HookConsumerWidget {
                       );
                     }
 
-                    final item = value.users[index];
+                    final item = value.profiles[index];
 
                     return HookBuilder(
                       builder: (context) {
@@ -90,12 +90,14 @@ class UsersPage extends HookConsumerWidget {
                             ),
                           ),
                           onDismissed: (direction) {
-                            ref.watch(usersProvider.notifier).remove(item.no);
+                            ref
+                                .watch(profilesProvider.notifier)
+                                .remove(item.no);
                           },
                           onUpdate: (details) {
                             progress.value = details.progress;
                           },
-                          child: UserTile(profile: item),
+                          child: ProfileTile(profile: item),
                         );
                       },
                     );

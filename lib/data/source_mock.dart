@@ -16,7 +16,7 @@ class SourceMock implements DataSource {
   }
 
   @override
-  Future<bool> add(UserEntity rawUser) {
+  Future<bool> add(ProfileEntity rawUser) {
     throw UnimplementedError();
   }
 

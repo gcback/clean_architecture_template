@@ -1,9 +1,9 @@
 part of '../component.dart';
 
-class UserDetail extends HookConsumerWidget {
-  const UserDetail(this.user, {super.key});
+class ProfileDetail extends HookConsumerWidget {
+  const ProfileDetail(this.profile, {super.key});
 
-  final User user;
+  final Profile profile;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +19,7 @@ class UserDetail extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-          title: Text(user.name, style: const TextStyle(fontSize: 14.0)),
+          title: Text(profile.name, style: const TextStyle(fontSize: 14.0)),
         ),
         body: SingleChildScrollView(
           child: Center(
@@ -32,7 +32,7 @@ class UserDetail extends HookConsumerWidget {
                   child: Image.network(
                     width: double.maxFinite,
                     fit: BoxFit.cover,
-                    'http://spsms.dyndns.org:3100/images/${getStringBeforeFirstDigit(user.pic)}/${user.pic}',
+                    'http://spsms.dyndns.org:3100/images/${getStringBeforeFirstDigit(profile.pic)}/${profile.pic}',
                   ),
                 ),
                 Row(
@@ -48,7 +48,7 @@ class UserDetail extends HookConsumerWidget {
                   flex: 3,
                   child: Padding(
                     padding: 16.0.allInsets,
-                    child: Text(user.desc),
+                    child: Text(profile.desc),
                   ),
                 ),
               ],

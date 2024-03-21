@@ -1,9 +1,9 @@
 part of '../component.dart';
 
-class UserTile extends StatelessWidget {
-  const UserTile({super.key, required this.profile});
+class ProfileTile extends StatelessWidget {
+  const ProfileTile({super.key, required this.profile});
 
-  final User profile;
+  final Profile profile;
 
   @override
   Widget build(BuildContext context) {
